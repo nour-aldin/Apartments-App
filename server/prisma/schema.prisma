@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Apartment {
+  id           Int      @id @default(autoincrement())
+  unitName     String   @map("unit_name")
+  unitNumber   String   @map("unit_number")
+  projectName  String   @map("project_name")
+  description  String?
+  price        Decimal  @db.Money()
+  bedrooms     Int
+  bathrooms    Int
+  areaSqm      Decimal? @map("area_sqm")
+  location     String?
+  primaryImage String?  @map("primary_image")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  images    ApartmentImage[]
+  amenities ApartmentAmenity[]
+
+  @@map("apartments")
+}
+
+model ApartmentImage {
+  id          Int       @id @default(autoincrement())
+  imageUrl    String    @map("image_url")
+  apartment   Apartment @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
+  apartmentId Int       @map("apartment_id")
+
+  @@map("apartment_images")
+}
+
+model Amenity {
+  id                 Int                @id @default(autoincrement())
+  name               String
+  apartmentAmenities ApartmentAmenity[]
+
+  @@map("amenities")
+}
+
+model ApartmentAmenity {
+  apartment   Apartment @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
+  apartmentId Int
+  amenity     Amenity   @relation(fields: [amenityId], references: [id], onDelete: Cascade)
+  amenityId   Int
+
+  @@id([apartmentId, amenityId])
+}
