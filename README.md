@@ -48,21 +48,6 @@ docker compose build client    # Rebuild frontend
 docker compose up -d
 ```
 
-## 📁 Project Structure
-
-```
-Apartments-App/
-├── client/                 # Next.js frontend
-│   ├── Dockerfile
-│   └── ...
-├── server/                 # NestJS backend
-│   ├── Dockerfile
-│   ├── prisma/
-│   └── ...
-├── docker-compose.yml      # Docker orchestration
-└── README.md
-```
-
 ## 🔧 Environment Variables
 
 The Docker setup uses the following default environment variables:
