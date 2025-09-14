@@ -43,11 +43,6 @@ docker compose build server    # Rebuild backend
 docker compose build client    # Rebuild frontend
 ```
 
-### Run in background (detached mode):
-```bash
-docker compose up -d
-```
-
 ## 🔧 Environment Variables
 
 The Docker setup uses the following default environment variables:
